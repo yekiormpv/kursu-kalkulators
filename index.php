@@ -40,8 +40,9 @@ require_once "data.php";
 	<select id="kurss" name="kurss" required>
 		<?php
 		foreach($kursi as $kurss => $dati) {
-			echo "<option value={$dati["nosaukums"]} - {$dati["cena"]} €";
-			// echo $selected === $key ? "selected" : '';
+			echo "<option value=\"{$kurss}\"";
+			// echo $selected === $key ? " selected" : '';
+			echo ">{$dati["nosaukums"]} - {$dati["cena"]} €</option>";
 			echo "</option>";
 		};
 		?>
