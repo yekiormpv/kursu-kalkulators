@@ -5,7 +5,6 @@
 body {
     margin: 0 2%;
     font-family: "Century Gothic", sans-serif;
-    font-size: 1.1em;
     background: #fff;
     color: #192533;
 }
@@ -13,8 +12,8 @@ body {
 header {
     background: #192533;
     color: #eee;
-    font-family: "Comic Sans MS", sans-serif;
-    padding: 20px 20px;
+    font-family: "Comic Sans MS", "Century Gothic", sans-serif;
+    padding: 1rem;
     text-align: center;
 }
 
@@ -43,14 +42,18 @@ th, td {
     font-weight: normal;
 }
 
-.td_price {
+th {
+	background: #eee;
+}
+
+.td-price {
     text-align: right;  
 }
 
 /* Dizains adaptēts telefoniem un citām ierīcem ar šauru ekrānu - tāpēc kalkulatora bloka platība ir = ar body platību */
 .calculator {
-    margin: 30px auto 20px auto;
-    padding: 10px 20px;
+    margin: 30px auto 15px auto;
+    padding: 0px 20px 20px 15px;
     border: 1px solid #19253375;
     border-radius: 12px;
     box-shadow: 5px 10px 10px #00000020;
@@ -58,11 +61,11 @@ th, td {
 
 label {
     display: block;
-    margin-top: 10px;
+    margin: 20px auto 5px auto;
 }
 
-select, input {
-    width: 100%;
+input, select {
+	width: 100%;
     padding: 10px;
     border: 1px solid #19253375;
     border-radius: 6px;
@@ -71,29 +74,48 @@ select, input {
 
 button {
     width: 100%;
-    margin: 0 2%;
-    padding: 20px 10px;
+    padding: 1em 0.5em;
     margin-top: 25px;
     background: #192533;
-    color: white;
+    color: #fff;
     border: none;
     border-radius: 6px;
     font-family: "Comic Sans MS", sans-serif;
-    font-size: 1.2rem;
+    font-size: 1.5rem;
     font-weight: bold;
     cursor: pointer;
 }
 
 button:hover {
-   box-shadow: 0px 10px 20px #19253375;
+   background: #192533e9;
+}
+
+.more {
+	background: #446622;
+}
+
+.more:hover {
+	background: #446622e9;
 }
 
 .error {
     color: #660000;
-    margin-top: 0px;
     font-size: 0.9rem;
 }
 
+.p-error {
+	color: #660000;
+	text-align: center;
+}
+
 .message {
-    color: #006600;
+	margin: 15px auto 15px auto;
+    padding: 0px 20px 20px 20px;
+    border: 1px solid #19253375;
+    border-radius: 12px;
+    box-shadow: 5px 10px 10px #00000020;
+	background: #f0f2ee;
+    color: #003300;
+	padding: 
+	
 }

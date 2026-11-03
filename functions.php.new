@@ -1,10 +1,11 @@
 <?php
+/* pieņem cenu eiros un dalībnieku skaitu intervālā no 1 līdz 5 */
 	function aprekins(float|int $cena, int $skaits) {
 		$cena *= 100;
 		$kop_cena = $cena * $skaits;
 		
 		match($skaits) {
-			1, 2 => $atlaide = 0,			// nav atlaides, var iztikt ar default	
+			1, 2 => $atlaide = 0,			// nav atlaides
 			3, 4, 5 => $atlaide = 0.1,		// 10% atlaide
 			default => $atlaide = 0,
 		};

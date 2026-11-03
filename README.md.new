@@ -1,0 +1,16 @@
+# kursu-kalkulators
+
+Kontroldabrs PHP - praktiskā daļa
+
+Šī tīmekļa vietnes daļa realizēta sekojoša funkcionalitāte:
+  - Lietotājam parāda pieejamo kursu sarakstu ar cenām.
+  - Lietotājs var izvēlēties vienu no kursiem (no izkritošā saraksta).
+  - Lietotājs var pieteikt kursam no viena līdz pieciem dalībniekiem, aizpildot formas visus laukus: vārds, epasts, izvelētais kurss, dalībnieku skaits un nospiežot pogu "Iesniegt".
+  - Ja visos laukos ir derīgi dati, lietotājam parāda pieteikuma apstiprinājumu uz zaļa fona, kurā ir iekļauti dati, kurus nosūtīja lietotājs, un arī:
+    - kopēja kursa cena (par visiem dalībniekiem),
+    - atlaide,
+    - gala cena (ar atlaidi).
+    Beigās lietotājam tiek parādīta poga "Izvēlēties vēl", kuru nospiežot, tiek ielādēta jauna un tukša kursa pieteikuma forma.
+  - Ja kādā no laukiem dati ir nederīgi vai nekā nav, lietotājam ziņo, kur viņš(a) ir kļūdījies(usies) un piedāva nosūtīt datus vēlreiz.
+
+

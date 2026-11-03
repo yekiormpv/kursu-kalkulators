@@ -1,0 +1,126 @@
+<?php
+require_once "data.php";
+require_once "functions.php";
+
+$kludas = 0;
+
+function show_results(string $vards, string $epasts, string $kursa_nosaukums, int $skaits, float $kop_cena, float $atlaide, float $gala_cena) {
+	echo "<div class=\"message\"><h2 >Paldies! Pieņemts pietekums:</h2>";
+	echo "<p>Kursu $skaits dalībniekam(iem) ir pieteicis: $vards</p>";
+	echo "<p>Kursa pieteicēja e-pasts: $epasts</p>";
+	echo "<p>Reģistrēts(i) kursam: $kursa_nosaukums</p>";
+	echo "<p>Dalībnieku skaits: $skaits</p>";
+	echo "<p>Kursa cena par visiem dalībniekiem: $kop_cena €</p>";
+	echo "<p>Atlaide: $atlaide €</p>";
+	echo "<p>Gala cena: $gala_cena €</p></div>";
+}
+?>
+
+<!DOCTYPE html>
+<html lang="lv">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kursu pieteikuma kalkulators</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+<header>
+<h1>Interneta skola: <span class="subtitle">Kursu pieteikuma kalkulators</span></h1>
+</header>
+<table>
+<caption>Pašlaik piedāvātie kursi</caption>
+<thead>
+<tr><th width="60%">Kursa nosaukums</th><th>Cena 1 dalībniekam, &euro;</th></tr> <!-- vai &#8364; -->
+</thead>
+<?php
+foreach($kursi as $kurss => $dati) {
+	$nosaukums = $dati["nosaukums"];
+	$cena = $dati["cena"];
+	/* pareizi:
+	printf("<tr><td>%s</td><td class=\"td-price\">%.2f</td></tr>", $nosaukums, $cena);
+	bet tagad būs priekš naudas formāts būtu ar komatu
+	*/
+	$centi = $cena * 100 % 100;
+	$centiStr = $centi == 0 ? "00" : (string)$centi;
+	$cenaStr = (string)round($cena, 0) . ',' . $centiStr;
+	echo "<tr><td>{$nosaukums}</td><td class='td-price'>{$cenaStr}</td></tr>";
+}
+?>
+</table>
+<p>Pašlaik pieejamo kursu skaits: <?= count($kursi) ?> </p>
+<div class="calculator">
+<h2>Kursu pieteikumu kalkulators</h2>
+<form method="POST">
+<?php
+if($_SERVER["REQUEST_METHOD"] == "POST" && $_POST["submit"] == "Yes") { /* neļauj nejauši atkārtoti nosūtīt to pašu, bet arī nav intuitīvi saprotami*/
+	echo "<label for=\"vards\">Vārds:";
+	$vards = trim($_POST["vards"] ?? "");
+	if($vards == "") {
+		echo "<span class=\"error\">Nav ievadīts vārds.</span>";
+		$kludas += 1;
+	}
+	echo "</label>
+	<input type=\"text\" name=\"vards\" value=\"" . htmlspecialchars($vards) . "\">
+	<label for=\"epasts\">E-pasts:";
+	$epasts = trim($_POST["epasts"] ?? "");
+	if(!filter_var($epasts, FILTER_VALIDATE_EMAIL)) {
+		echo "<span class=\"error\">Nederīga e-pasta adrese.</span>";
+		$kludas += 1;
+	}
+	echo "</label>
+	<input type=\"text\" name=\"epasts\" value=\"" . htmlspecialchars($epasts) . "\">
+	<label for=\"kurss\">Kursa izvēle:";
+	$kurss = trim($_POST["kurss"] ?? "");
+	if(!array_key_exists($kurss, $kursi)) {
+		echo "<span class=\"error\">Izvēlētais kurss nav pieejams.</span>";
+		$kludas += 1;
+	}
+	echo "</label>
+	<select name=\"kurss\">
+		<option value=\"sel_dis\" selected disabled>Izvēlaties kursu</option>";
+		foreach($kursi as $kurss => $dati) {
+			$selection = $_POST["kurss"] == $kurss ? " selected" : "";
+			echo "<option value=\"{$kurss}\"{$selection}>{$dati['nosaukums']}</option>";
+		}
+	echo "</select>
+	<label for=\"skaits\">Dalībnieku skaits (1-5):";
+	$skaitsNum = (int)trim($_POST["skaits"] ?? "");
+	if($skaitsNum < 1 || $skaitsNum > 5) {
+		echo "<span class=\"error\">Dalībnieku skaits jābūt no 1 līdz 5.</span>";
+		$kludas += 1;
+	}
+	echo "</label>
+		<input type=\"text\" name=\"skaits\" min=\"1\" max=\"5\" value=\"" . $skaitsNum . "\">";
+	
+	if($kludas == 0) {			
+		echo "<button class=\"more\" name=\"submit\" type=\"submit\" value=\"More\">Izvēlēties vēl</button></form></div>";
+		$cena = $kursi[$kurss]["cena"];
+		[$kop_cena, $atlaide, $gala_cena] = aprekins($cena, $skaitsNum);
+		$kursa_nosaukums = $kursi[$_POST["kurss"]]["nosaukums"];
+		show_results($vards, $epasts, $kursa_nosaukums, $skaitsNum, $kop_cena, $atlaide, $gala_cena);
+	} else {
+		echo "<p class=\"p-error\">Lūdzu, labojiet kļūdas un iesniedziet formu vēlreiz.</p>";
+		echo "<button name=\"submit\" type=\"submit\" value=\"Yes\">Izlaboju, iesniegt</button></form></div>";
+	}
+} else {
+	echo "<label for=\"vards\">Vārds:</label>
+		<input type=\"text\" name=\"vards\" value=\"\">
+		<label for=\"epasts\">E-pasts:</label>
+		<input type=\"text\" name=\"epasts\" value=\"\">
+		<label for=\"kurss\">Kursa izvēle:</label>
+		<select name=\"kurss\"><option value=\"sel_dis\" selected disabled>Izvēlaties kursu</option>";
+		foreach($kursi as $kurss => $dati) {
+			echo "<option value=\"{$kurss}\">{$dati['nosaukums']}</option>";
+		}
+		echo "</select>
+		<label for=\"skaits\">Dalībnieku skaits (1-5):</label>
+		<input type=\"text\" name=\"skaits\" min=\"1\" max=\"5\" value=\"\">";
+		
+		echo "<button name=\"submit\" type=\"submit\" value=\"Yes\">Iesniegt</button></form></div>";
+}
+?>
+</body>
+</html>

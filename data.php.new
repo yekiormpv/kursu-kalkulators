@@ -1,0 +1,9 @@
+<?php
+$kursi = [
+	"html" => ["nosaukums" => "HTML pamati", "cena" => 25.50], 
+	"css" => ["nosaukums" => "CSS pamati", "cena" => 30.0], 
+	"php" => ["nosaukums" => "PHP pamati", "cena" => 44.99],
+	"git" => ["nosaukums" => "Git un GitHub", "cena" => 20.0]
+	];
+
+?>
