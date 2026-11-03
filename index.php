@@ -124,8 +124,7 @@ if($_SERVER["REQUEST_METHOD"] === "POST") {
 	}
 
 	echo "<button name=\"submit\" type=\"submit\" value=\"Yes\">Iesniegt</button>";
-	echo "<button name=\"reset\" type=\"reset\" value=\"Yes\">Notīrīt</button>";
-
+	
 	function show_results(string $vards, string $epasts, string $kursa_nosaukums, int $skaits, float $kop_cena, float $atlaide, float $gala_cena) {
 	echo "<div class=\"message\"><h2 >Paldies! Pieņemts pietekums:</h2>";
 	echo "<p>Kursu $skaits dalībniekiem ir pieteicis: $vards</p>";
