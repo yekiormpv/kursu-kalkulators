@@ -1,0 +1,18 @@
+<?php
+	function aprekins(float|int $cena, int $skaits) {
+		$cena *= 100;
+		$kop_cena = $cena * $skaits;
+		
+		match($skaits) {
+			1, 2 => $atlaide = 0,			// nav atlaides, var iztikt ar default	
+			3, 4, 5 => $atlaide = 0.1,		// 10% atlaide
+			default => $atlaide = 0,
+		};
+
+		$atlaide = round(($atlaide * $kop_cena) / 100, 2);
+		$kop_cena = round($kop_cena / 100, 2);
+		$gala_cena = round($kop_cena - $atlaide, 2);
+	
+		return array($kop_cena, $atlaide, $gala_cena);
+	}
+?>

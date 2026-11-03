@@ -1,6 +1,55 @@
 <?php
 require_once "data.php";
+require_once "functions.php";
+
+function show_results(string $vards, string $epasts, string $kursa_nosaukums, int $skaits, float $kop_cena, float $atlaide, float $gala_cena) {
+	echo "<p>Paldies! Pieņemts pietekums:</p>";
+	echo "<p>Kursu $skaits dalībniekiem ir pieteicis: $vards</p>";
+	echo "<p>Kursa pieteicēja e-pasts: $epasts</p>";
+	echo "<p>Reģistrēts(i) kursam: $kursa_nosaukums</p>";
+	echo "<p>Dalībnieku skaits: $skaits</p>";
+	echo "<p>Kursa cena par $skaits dalībniekiem: $kop_cena €</p>";
+	echo "<p>Atlaide: $atlaide €</p>";
+	echo "<p>Gala cena: $gala_cena €</p>";
+}
+
+$kludas = 0;
+
+if($_SERVER["REQUEST_METHOD"] === "POST") {
+	$vards = trim($_POST["vards"]) ?? "";
+	if($vards == "") {	
+		echo "<p class=\"error\">Nav ievadīts vārds.</p>";
+		$kludas += 1;
+	}
+	$epasts = trim($_POST["epasts"]) ?? "";
+	if(!filter_var($epasts, FILTER_VALIDATE_EMAIL)) {
+		echo "<p class=\"error\">Nederīga e-pasta adrese.</p>";
+		$kludas += 1;
+	}
+	$kurss = trim($_POST["kurss"]) ?? "";
+	if(!array_key_exists($kurss, $kursi)) {
+		echo "<p class=\"error\">Izvēlētais kurss nav pieejams.</p>";
+		$kludas += 1;
+	}
+	$skaits = trim($_POST["skaits"]) ?? "";
+	if($skaits < 1 || $skaits > 5) {
+		echo "<p class=\"error\">Dalībnieku skaits jābūt no 1 līdz 5.</p>";
+		$kludas += 1;
+	}
+
+	if($kludas === 0) { 
+		/* aprēķiniem nepieciešami vienas vietas cena un dalībnieku skaits) */
+		$cena = $kursi[$kurss]["cena"];
+		[$kop_cena, $atlaide, $gala_cena] = aprekins($cena, $skaits);
+
+		$kursa_nosaukums = $kursi[$kurss]["nosaukums"];
+		show_results($vards, $epasts, $kursa_nosaukums, $skaits, $kop_cena, $atlaide, $gala_cena);
+	} else {
+		echo "<p class=\"error\">Lūdzu, labojiet kļūdas un iesniedziet formu vēlreiz.</p>";
+	}
+}
 ?>
+
 <!DOCTYPE html>
 <html lang="lv">
 <head>
@@ -31,7 +80,7 @@ require_once "data.php";
 </div>
 <div class="container">
 <h2>Kursu pieteikumu kalkulators</h2>
-<form action="" method="post">	
+<form action="" method="POST">	
 	<label for="vards">Vārds:</label>
 	<input type="text" name="vards" required><br>
 	<label for="epasts">E-pasts:</label>
