@@ -1,0 +1,99 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0 2%;
+    font-family: "Century Gothic", sans-serif;
+    font-size: 1.1em;
+    background: #fff;
+    color: #192533;
+}
+
+header {
+    background: #192533;
+    color: #eee;
+    font-family: "Comic Sans MS", sans-serif;
+    padding: 20px 20px;
+    text-align: center;
+}
+
+.subtitle {
+    font-style: italic;
+    color: #fff;
+}
+
+table {
+    width: 100%;
+    margin-top: 20px;
+    border-collapse: collapse;
+    border: 1px solid #192533;
+}
+
+caption, h2 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-align: left;
+    margin-bottom: 10px;
+}
+
+th, td {
+    padding: 10px;
+    border: 1px solid #192533;
+    font-weight: normal;
+}
+
+.td_price {
+    text-align: right;  
+}
+
+/* Dizains adaptēts telefoniem un citām ierīcem ar šauru ekrānu - tāpēc kalkulatora bloka platība ir = ar body platību */
+.calculator {
+    margin: 30px auto 20px auto;
+    padding: 10px 20px;
+    border: 1px solid #19253375;
+    border-radius: 12px;
+    box-shadow: 5px 10px 10px #00000020;
+}
+
+label {
+    display: block;
+    margin-top: 10px;
+}
+
+select, input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #19253375;
+    border-radius: 6px;
+    font-size: 1rem;
+}
+
+button {
+    width: 45%;
+    margin: 0 2%;
+    padding: 20px 10px;
+    margin-top: 25px;
+    background: #192533;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-family: "Comic Sans MS", sans-serif;
+    font-size: 1.2rem;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+button:hover {
+   box-shadow: 0px 10px 20px #19253375;
+}
+
+.error {
+    color: #660000;
+    margin-top: 0px;
+    font-size: 0.9rem;
+}
+
+.message {
+    color: #006600;
+}
